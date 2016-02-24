@@ -50,6 +50,9 @@ header{
 	font-size: 1.25em;
 	background: rgba(0, 0, 0, .7);
 	height: 44px; 
+	width: 100%;
+	position: fixed;
+	z-index: 999;
 }
 nav ul{
 	margin: 0 auto;
@@ -65,3 +68,17 @@ nav li{
 	padding: 12px 0;
 }
 
+.gdrtc-main .profile{
+	height: 100%; width: 100%; 
+	position: absolute; 
+	background: #000 url(../img/anechoic-chamber.png) no-repeat top;
+	background-size: cover; 
+}
+.gdrtc-main .profile .text{
+	width: 1280px; height: auto; 
+	margin: 0 auto;/*左右居中*/
+	padding-top: 20%; 
+}
+.gdrtc-main .profile .text .profile-summary{
+	width: 28em;
+}
