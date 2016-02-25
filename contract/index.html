@@ -8,7 +8,7 @@
 <meta name="copyright" content="Yangholmes Designed" />
 
 <link type="text/css" rel="stylesheet" href="contract.css" />
-<link rel="stylesheet" href="fonts/font-awesome-4.4.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../fonts/font-awesome-4.4.0/css/font-awesome.min.css" />
 <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
 
 <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72.png" />
@@ -30,11 +30,11 @@
 		<nav class="navigation">
 			<ul class="nav-ul">
 				<li><a href="../"><img src="../img/GDRTC.png"></img></a></li>
-				<li><a href="#">业务介绍</a></li>
-				<li><a href="#">新闻中心</a></li>
-				<li><a href="#">信息公示</a></li>
-				<li><a href="#">文件下载</a></li>
-				<li><a href="#">政策法规</a></li>
+				<li><a href="../business">业务介绍</a></li>
+				<li><a href="../news">新闻中心</a></li>
+				<li><a href="../">信息公示</a></li>
+				<li><a href="../downloads">文件下载</a></li>
+				<li><a href="../laws">政策法规</a></li>
 				<li id="contract"><a href="">关于我们</a></li>
 			</ul>
 		</nav>
@@ -51,10 +51,10 @@
 						<h1>Contract</h1>
 					</div>
 					<div class="address">
-						<p>地址：广东省广州市黄埔大道西平云路163号</p>
-						<p>邮政编码：510656</p>
+						<p>地址：广东省广州市萝岗区南翔三路8号无线科技大楼</p>
+						<p>邮政编码：510663</p>
 						<p>联系人：卢威</p>
-						<p>联系电话：+86（20）38695060</p>
+						<p>联系电话：+86(020)66641510</p>
 						<p>电子邮箱：gdrtc@gdrtc.org</p>
 					</div>
 				</div>
@@ -79,22 +79,22 @@
 <!-- page end -->
 
 <!-- JavaScript file(start) -->
-<script src="js/index.js"></script>
+<script src="contract.js"></script>
 <script type="text/javascript">
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");								// 创建Map实例
 	map.centerAndZoom(new BMap.Point(113.450189, 23.15532), 20);	// 初始化地图,设置中心点坐标和地图级别
-	map.addControl(new BMap.MapTypeControl());						//添加地图类型控件
+	map.addControl(new BMap.MapTypeControl());						// 添加地图类型控件
 	map.setCurrentCity("广州");										// 设置地图显示的城市 此项是必须设置的
-	map.enableScrollWheelZoom(true);								//开启鼠标滚轮缩放
+	map.enableScrollWheelZoom(true);								// 开启鼠标滚轮缩放
 	// 添加标记和文字
 	var point = new BMap.Point(113.449942, 23.154298);
 	var opts = { 
-		position : point,					// 指定文本标注所在的地理位置
-		offset   : new BMap.Size(0, 0)		//设置文本偏移量
+		position : point,											// 指定文本标注所在的地理位置
+		offset   : new BMap.Size(0, 0)								// 设置文本偏移量
 	}
 	var marker = new BMap.Marker(point);
-	var label = new BMap.Label("海格·无线科技大楼", opts);	// 创建文本标注对象
+	var label = new BMap.Label("海格·无线科技大楼", opts);			// 创建文本标注对象
 		label.setStyle({
 			 color : "black",
 			 fontSize : "2em",
@@ -106,21 +106,21 @@
 		 });
 	map.addOverlay(label); 
 	map.addOverlay(marker);
-	marker.setAnimation(BMAP_ANIMATION_BOUNCE);				//跳动的动画
+	marker.setAnimation(BMAP_ANIMATION_BOUNCE);						// 跳动的动画
 	// 线路搜索框
 	var content = '<div style="margin:0;line-height:20px;padding:2px;">' +
                     '地址：广州市萝岗区南翔三路8号<br/>电话：+86(020)38695060<br/>简介：' +
                   '</div>';
 	searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
-			title  : "无线科技大楼",						//标题
-			width  : 290,									//宽度
-			height : 70,									//高度
-			panel  : "panel",								//检索结果面板
-			enableAutoPan : true,							//自动平移
+			title  : "无线科技大楼",								// 标题
+			width  : 290,											// 宽度
+			height : 70,											// 高度
+			panel  : "panel",										// 检索结果面板
+			enableAutoPan : true,									// 自动平移
 			searchTypes   :[
-				BMAPLIB_TAB_SEARCH,   //周边检索
-				BMAPLIB_TAB_TO_HERE,  //到这里去
-				BMAPLIB_TAB_FROM_HERE //从这里出发
+				BMAPLIB_TAB_SEARCH,									// 周边检索
+				BMAPLIB_TAB_TO_HERE,								// 到这里去
+				BMAPLIB_TAB_FROM_HERE								// 从这里出发
 			]
 		});
 	marker.addEventListener("click", function(e){
