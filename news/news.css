@@ -33,7 +33,7 @@ body{
 	font-size: 100%;
 	font-family: 'PingHei', sans-serif;
 	font-weight: 400;
-	color: rgb(255, 255, 255);
+	color: rgb(50, 50, 50);
 	margin: 0;
 	padding: 0;
 	background: rgb(255, 255, 255);
@@ -71,12 +71,32 @@ header ul #news a{
 	color: rgb(200, 200, 200);
 }
 
+main{
+	background: url('../img/sub-page-background.png') no-repeat ;
+	background-attachment:fixed;
+	background-position:center;
+	min-height: 720px;
+}
+.details {
+	width: 960px;
+	margin: 0 auto;
+	padding-top: 132px;
+}
 h1{
-	font-size: 2.5em; 
+	font-size: 1.875em; 
 	line-height: 1.5em;
+	text-align: center;
+	font-weight: 600;
+}
+h2{
+	font-size: 1.5em; 
+	line-height: 1.5em;
+	text-align: left;
+	font-weight: 600;
 }
 p{
 	font-size: 1.25em; 
 	line-height: 1.5em;
 	text-align: justify; 
+	font-weight: 400;
 }
