@@ -71,7 +71,7 @@ nav li{
 .gdrtc-main .profile{
 	height: 100%; width: 100%; 
 	position: absolute; 
-	background: #000 url(../img/anechoic-chamber.png) no-repeat top;
+	background: #000 url(../img/anechoic-chamber.jpg) no-repeat top;
 	background-size: cover; 
 }
 .gdrtc-main .profile .text{
