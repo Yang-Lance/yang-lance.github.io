@@ -1,54 +1,3 @@
-function getXMLHTTPRequest() {
-   var req =  false;
-   try {
-      /* for Firefox */
-      req = new XMLHttpRequest(); 
-   } catch (err) {
-      try {
-         /* for some versions of IE */
-         req = new ActiveXObject("Msxml2.XMLHTTP");
-      } catch (err) {
-         try {
-            /* for some other versions of IE */
-            req = new ActiveXObject("Microsoft.XMLHTTP");
-         } catch (err) {
-            req = false;
-         }
-     }
-   }
-   
-   return req;
-}
-
-function getServerTime(myReq) {
-  var thePage = 'http://localhost/instance/test.php';
-  myRand = parseInt(Math.random()*999999999999999);
-  var theURL = thePage +"?rand="+myRand;
-  myReq.open("GET", theURL, true);
-  myReq.onreadystatechange = function() {
-	  if (myReq.readyState == 4) {
-			console.log(myReq);
-		if(myReq.status == 200) {
-			console.log(myReq);
-		   var timeString = myReq.responseXML.getElementsByTagName("timestring")[0];
-		   document.getElementById('showtime').innerHTML = timeString.childNodes[0].nodeValue;
-		}
-	  } else {
-		console.log(myReq);
-		document.getElementById('showtime').innerHTML = '<p>wait...</p>';
-	  }
-	};
-  myReq.send(null);
-}
-
-
-function onMouseClick(){
-	var myReq = getXMLHTTPRequest();
-	getServerTime(myReq);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * 标题列表事件注册
  */
@@ -60,6 +9,7 @@ function listRegister(callback){
 		informationList[i].onclick = function(){
 			//this: informationList[i]
 			callback(this);
+			return false;
 		}
 	}
 }
@@ -72,15 +22,28 @@ function listGenerate(titleLists){
 	var listDiv = document.getElementById("information-list");
 	var titleListHTML = "";
 	for( var i=0;i<titleLists.length;i++){
-		titleListHTML = titleListHTML + "<li>" + titleLists[i] + "</li>" ;
+		titleListHTML = titleListHTML + "<li onclick='console.log(this)'>" + titleLists[i] + "</li>" ;
 	}
 	console.log(titleListHTML);
 	listDiv.innerHTML = titleListHTML;
+}
+function decodeJSON(jsonObj){
+	if (!jsonObj) return "";    // Always return a string
+	var pairs = [];          // To hold name=value pairs
+	for(var name in jsonObj) {                                  // For each name
+		if (!jsonObj.hasOwnProperty(name)) continue;            // Skip inherited
+		if (typeof jsonObj[name] === "function") continue;      // Skip methods
+		if (jsonObj[name] == null) continue;
+		var value = jsonObj[name].toString();                   // Value as string
+		pairs.push(value);   // Remember name=value pair
+	}
+	return pairs;
 }
 
 /**
  * Use JSON decode to send a HTML POST request
  * @param callback: function that used to deal with request
+ * @param data: original data to post
  */
 function postJSON(url, data, callback){
 	var request = new XMLHttpRequest();
@@ -89,5 +52,62 @@ function postJSON(url, data, callback){
 		callback(request);
 	};
 	request.setRequestHeader("Content-Type", "application/json");
-	request.sent( JSON.stringify(data) );
+	request.send( JSON.stringify(data) );
 }
+
+/**
+ * Encode the properties of an object as if they were name/value pairs from
+ * an HTML form, using application/x-www-form-urlencoded format
+ * @param data: must be [Object]
+ */
+function encodeFormData(data) {
+    if (!data) return "";    // Always return a string
+    var pairs = [];          // To hold name=value pairs
+    for(var name in data) {                                  // For each name
+        if (!data.hasOwnProperty(name)) continue;            // Skip inherited
+        if (typeof data[name] === "function") continue;      // Skip methods
+		if (data[name] == null) continue;
+        var value = data[name].toString();                   // Value as string
+        name = encodeURIComponent(name.replace(" ", "+"));   // Encode name
+        value = encodeURIComponent(value.replace(" ", "+")); // Encode value
+        pairs.push(name + "=" + value);   // Remember name=value pair
+    }
+    return pairs.join('&'); // Return joined pairs separated with &
+}
+function postData(url, data, callback) {
+    var request = new XMLHttpRequest();            
+    request.open("POST", url);                    // POST to the specified url
+    request.onreadystatechange = function() {     // Simple event handler
+        if (request.readyState === 4 && callback) // When response is complete
+            callback(request);                    // call the callback.
+    };
+    request.setRequestHeader("Content-Type",      // Set Content-Type
+                             "application/x-www-form-urlencoded");
+    request.send(encodeFormData(data));           // Send form-encoded data
+}
+
+/**
+ * 查询指令
+ * [Object]
+ * 用关键字new声明
+ */
+function queryOrder(queryType, url, query){
+	this.queryType = queryType;
+	this.url = url;
+	this.query = query;
+}
+queryOrder.prototype = {
+	constructor: queryOrder,
+	toString: function(){ return this; },
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * 加载文章列表
+ * 注册点击标题事件
+ */
+var queryList = new queryOrder(0, "content", "");
+postData("information.php", queryList, function(request){
+	var titleLists = decodeJSON( JSON.parse(request.responseText) );
+	listGenerate(titleLists);
+});
