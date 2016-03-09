@@ -15,16 +15,36 @@ function listRegister(callback){
 }
 
 /**
+ * onClick function
+ */
+function onClick(that){
+	var docPath = that.innerHTML;
+	var queryList = new queryOrder(1, docPath, "");
+	postData("information.php", queryList , function(request){
+		var div = document.getElementsByClassName("details")[0];
+		div.innerHTML = request.responseText ;
+		
+		var imgs = div.getElementsByTagName('img');
+		for(var i=0;i<imgs.length;i++){
+			var originalSrc = div.getElementsByTagName('img')[i].getAttribute('src');
+			var src = "content/" + originalSrc;
+			div.getElementsByTagName('img')[i].setAttribute('src', src);
+		}
+	});
+}
+
+/**
  * 生成标题列表
  * @param titleLists: Array, list of titles
  */
 function listGenerate(titleLists){
 	var listDiv = document.getElementById("information-list");
+	if(!listDiv) return false;
 	var titleListHTML = "";
 	for( var i=0;i<titleLists.length;i++){
-		titleListHTML = titleListHTML + "<li onclick='console.log(this)'>" + titleLists[i] + "</li>" ;
+		titleListHTML = titleListHTML + "<li "  + "onclick=onClick(this)" + ">" + titleLists[i] + "</li>" ;
 	}
-	console.log(titleListHTML);
+	// console.log(titleListHTML);
 	listDiv.innerHTML = titleListHTML;
 }
 function decodeJSON(jsonObj){

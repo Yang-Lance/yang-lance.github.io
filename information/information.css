@@ -72,7 +72,7 @@ header ul #news a{
 }
 
 main{
-	background: url('../img/sub-page-background.png') no-repeat ;
+	background: #fff url('../img/sub-page-background.png') no-repeat ;
 	background-attachment:fixed;
 	background-position:center;
 	min-height: 720px;
