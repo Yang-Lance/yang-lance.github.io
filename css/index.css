@@ -78,8 +78,8 @@ nav li{
 .gdrtc-main .profile{
 	height: 100%; width: 100%; 
 	position: absolute; 
-	background: #000 url(../img/anechoic-chamber.jpg) no-repeat top;
-	background-size: contain;
+	background: #000 url(../img/anechoic-chamber.jpg) no-repeat center;
+	/* background-size: contain; */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

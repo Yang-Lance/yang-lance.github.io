@@ -1,4 +1,23 @@
 /**
+ * 查询指令
+ * [Object]
+ * 用关键字new声明
+ */
+function queryOrder(queryType, url, query){
+	this.queryType = queryType;
+	this.url = url;
+	this.query = query;
+}
+queryOrder.prototype = {
+	constructor: queryOrder,
+	toString: function(){ return this; },
+};
+
+/**
+ * 
+ */
+
+/**
  * 标题列表事件注册
  */
 function listRegister(callback){
@@ -18,18 +37,18 @@ function listRegister(callback){
  * onClick function
  */
 function onClick(that){
-	var docPath = that.innerHTML;
+	var docPath = that.innerHTML + that.getAttribute("class");
 	var queryList = new queryOrder(1, docPath, "");
 	postData("information.php", queryList , function(request){
 		var div = document.getElementsByClassName("details")[0];
 		div.innerHTML = request.responseText ;
-		
 		var imgs = div.getElementsByTagName('img');
 		for(var i=0;i<imgs.length;i++){
 			var originalSrc = div.getElementsByTagName('img')[i].getAttribute('src');
 			var src = "content/" + originalSrc;
 			div.getElementsByTagName('img')[i].setAttribute('src', src);
 		}
+		location.hash = docPath;							//设置锚，用于标定网页位置
 	});
 }
 
@@ -42,9 +61,10 @@ function listGenerate(titleLists){
 	if(!listDiv) return false;
 	var titleListHTML = "";
 	for( var i=0;i<titleLists.length;i++){
-		titleListHTML = titleListHTML + "<li "  + "onclick=onClick(this)" + ">" + titleLists[i] + "</li>" ;
+		var docType = checkDocType(titleLists[i]);
+		titleLists[i] = titleLists[i].replace(docType, "");
+		titleListHTML = titleListHTML + "<li " + "class=\"" + docType + "\"" + "onclick=onClick(this)" + ">" + titleLists[i] + "</li>" ;
 	}
-	// console.log(titleListHTML);
 	listDiv.innerHTML = titleListHTML;
 }
 function decodeJSON(jsonObj){
@@ -58,6 +78,14 @@ function decodeJSON(jsonObj){
 		pairs.push(value);   // Remember name=value pair
 	}
 	return pairs;
+}
+function checkDocType(files){
+	var formatList = new Array('.txt', '.html', '.xml', '.htm');
+	for(var j=0;j<formatList.length;j++){
+		var pattern = new RegExp( '\\' + formatList[j] + '$' );
+		if( pattern.test(files) )
+			return formatList[j];
+	}
 }
 
 /**
@@ -106,28 +134,28 @@ function postData(url, data, callback) {
     request.send(encodeFormData(data));           // Send form-encoded data
 }
 
-/**
- * 查询指令
- * [Object]
- * 用关键字new声明
- */
-function queryOrder(queryType, url, query){
-	this.queryType = queryType;
-	this.url = url;
-	this.query = query;
-}
-queryOrder.prototype = {
-	constructor: queryOrder,
-	toString: function(){ return this; },
-};
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
+ * 初始化整个内容
  * 加载文章列表
  * 注册点击标题事件
  */
-var queryList = new queryOrder(0, "content", "");
-postData("information.php", queryList, function(request){
-	var titleLists = decodeJSON( JSON.parse(request.responseText) );
-	listGenerate(titleLists);
-});
+function initMain(){
+	var queryList = new queryOrder(0, "content", "");
+	postData("information.php", queryList, function(request){
+		var titleLists = decodeJSON( JSON.parse(request.responseText) );
+		listGenerate(titleLists);
+	});
+}
+
+/**
+ * backward操作
+ */
+window.onhashchange = function() {
+	console.log(location.hash);
+	if( location.hash == "" )
+		initMain();
+}
+
+initMain();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////

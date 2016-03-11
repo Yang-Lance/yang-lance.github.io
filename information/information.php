@@ -21,14 +21,17 @@
 			for($x=0;$x<$count;$x++) {
 				$docs[$x] = iconv( "GBK","utf-8", $docs[$x] );						//如果文件系统编码不是utf-8，则转码
 			}
-			// $docs = array_diff( $docs, array('..', '.') );							//去掉"."和".."两项
-			$docs = formatFilter( $docs );								//去掉文件类型不符合项
-			echo json_encode( $docs );				
+			$docs = formatFilter( $docs );											//去掉文件类型不符合项
+			echo json_encode( $docs );
+			// filemtime($url."/2.txt");												//获取文件最后一次更改时间
+			// date( "F d Y H:i:s.", filemtime($url."/2.txt") );						//格式化时间（格林尼治时间，按时区加减即可）
 			break;
 		case 1:							//查内容
 			$fp = fopen("content/".$url , rw);
 			$url = iconv( "utf-8", "GBK", $url );									//如果文件系统编码不是utf-8，则转码
-			echo readfile("content/".$url);
+			$text = readfile("content/".$url);
+			// echo iconv( "GBK", "utf-8//IGNORE", $text );
+			echo $text = mb_convert_encoding($text, "UTF-8", "gbk");
 			break;
 		default:
 			echo "fail!";

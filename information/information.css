@@ -40,11 +40,11 @@ body{
 	width: 100%; height: 100%;
 }
 
-a{text-decoration:none; }
-a:link{color:rgb(255, 255, 255); }
-a:visited{color:rgb(255, 255, 255); }
-a:hover{color:rgb(200, 200, 200); }
-a:active{color:rgb(200, 200, 200); }
+a[class="framework"]{text-decoration:none; }
+a[class="framework"]:link{color:rgb(255, 255, 255); text-decoration:none; }
+a[class="framework"]:visited{color:rgb(255, 255, 255); text-decoration:none; }
+a[class="framework"]:hover{color:rgb(200, 200, 200); text-decoration:none; }
+a[class="framework"]:active{color:rgb(200, 200, 200); text-decoration:none; }
 
 header{
 	font-size: 1.25em;
@@ -70,6 +70,9 @@ nav li{
 header ul #news a{
 	color: rgb(200, 200, 200);
 }
+#information a{
+	color: rgb(200, 200, 200);
+}
 
 main{
 	background: #fff url('../img/sub-page-background.png') no-repeat ;
@@ -80,7 +83,16 @@ main{
 .details {
 	width: 960px;
 	margin: 0 auto;
-	padding-top: 132px;
+	padding: 132px 0 44px 0;
+}
+.details li{
+	font-size: 1.5em;
+	line-height: 1.5em;
+	width: auto;
+}
+.details li:hover{
+	color:rgb(100, 100, 100); 
+	cursor: pointer;
 }
 h1{
 	font-size: 1.875em; 
