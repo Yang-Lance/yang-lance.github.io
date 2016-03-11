@@ -8,8 +8,9 @@
 	
 	/**
 	 * 适配的文件格式
+	 * define can only apply to charactor and numeric
 	 */
-	define( 'FORMATLIST', array('.txt', '.html', '.xml', '.htm') );
+	// define( 'FORMATLIST', array('.txt', '.html', '.xml', '.htm') );
 	
 	/**
 	 * 
@@ -27,7 +28,7 @@
 			// date( "F d Y H:i:s.", filemtime($url."/2.txt") );						//格式化时间（格林尼治时间，按时区加减即可）
 			break;
 		case 1:							//查内容
-			$fp = fopen("content/".$url , rw);
+			// $fp = fopen("content/".$url);
 			$url = iconv( "utf-8", "GBK", $url );									//如果文件系统编码不是utf-8，则转码
 			$text = readfile("content/".$url);
 			// echo iconv( "GBK", "utf-8//IGNORE", $text );
@@ -42,10 +43,11 @@
 	 * 
 	 */
 	function formatFilter( $docs ){
+		$formatList = array('.txt', '.html', '.xml', '.htm');
 		$docsFilted = array();
 		for($j=0;$j<count($docs);$j++){
-			for($i=0;$i<count(FORMATLIST);$i++){
-				$pattern = '/\\'.FORMATLIST[$i].'$/';
+			for($i=0;$i<count($formatList);$i++){
+				$pattern = '/\\'.$formatList[$i].'$/';
 				if( preg_match( $pattern, $docs[$j] ) ){
 					array_push( $docsFilted, $docs[$j] );
 				}
