@@ -31,7 +31,7 @@ ul,li,p,h1{
 
 body{
 	font-size: 100%;
-	font-family: 'PingHei', sans-serif;
+	font-family: 'PingHei', 'Microsoft YaHei', sans-serif;
 	font-weight: 400;
 	color: rgb(255, 255, 255);
 	margin: 0;
@@ -115,4 +115,8 @@ main{
 .contact p{
 	font-size: 1.25em;
 	line-height: 1.5em;
+}
+.luogang {
+	font-style: normal;
+	font-size: .86em;
 }

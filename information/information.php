@@ -1,19 +1,20 @@
-<?php
+﻿<?php
 	/**
 	 * 前端数据
+	 * 一个消息类
 	 */
-	$type = $_POST['queryType'];		//指令类型
-	$url = $_POST['url'];				//文档路径
+	$type  = $_POST['queryType'];		//指令类型
+	$url   = $_POST['url'];				//文档路径
 	$query = $_POST['query'];			//查询条件
 	
 	/**
 	 * 适配的文件格式
-	 * define can only apply to charactor and numeric
+	 * define can only apply to string and numeric
 	 */
 	// define( 'FORMATLIST', array('.txt', '.html', '.xml', '.htm') );
 	
 	/**
-	 * 
+	 * 根据指令类型作出反应
 	 */
 	switch($type){
 		case 0:							//查列表
@@ -24,8 +25,8 @@
 			}
 			$docs = formatFilter( $docs );											//去掉文件类型不符合项
 			echo json_encode( $docs );
-			// filemtime($url."/2.txt");												//获取文件最后一次更改时间
-			// date( "F d Y H:i:s.", filemtime($url."/2.txt") );						//格式化时间（格林尼治时间，按时区加减即可）
+			// filemtime($url."/2.txt");											//获取文件最后一次更改时间
+			// date( "F d Y H:i:s.", filemtime($url."/2.txt") );					//格式化时间（格林尼治时间，按时区加减即可）
 			break;
 		case 1:							//查内容
 			// $fp = fopen("content/".$url);
@@ -40,20 +41,22 @@
 	}
 	
 	/**
-	 * 
+	 * 格式过滤器
+	 * 参数 $formatList 为格式列表，只有格式列表中的文件格式不会被过滤掉
+	 * 参数 $docs 为待过滤格式列表，包含指定路径内的所有格式的文件
 	 */
 	function formatFilter( $docs ){
 		$formatList = array('.txt', '.html', '.xml', '.htm');
-		$docsFilted = array();
+		$docsFilted = array();														//符合格式的文件列表
 		for($j=0;$j<count($docs);$j++){
 			for($i=0;$i<count($formatList);$i++){
-				$pattern = '/\\'.$formatList[$i].'$/';
-				if( preg_match( $pattern, $docs[$j] ) ){
-					array_push( $docsFilted, $docs[$j] );
+				$pattern = '/\\'.$formatList[$i].'$/';								//创建正则表达式
+				if( preg_match( $pattern, $docs[$j] ) ){							//匹配
+					array_push( $docsFilted, $docs[$j] );							//匹配项存入 $ 中
 				}
 			}
 		}
-		return $docsFilted;
+		return $docsFilted;															//返回 $docsFilted
 	}
 	
 ?>
