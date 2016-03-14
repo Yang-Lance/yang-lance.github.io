@@ -21,12 +21,12 @@ queryOrder.prototype = {
  * 标题列表事件注册
  */
 function listRegister(callback){
-	var listDiv = document.getElementById("information-list");
-	var informationList = listDiv.getElementsByTagName("li");
-	for( var i=0;i<informationList.length;i++ ){
-		console.log(informationList[i]);
-		informationList[i].onclick = function(){
-			//this: informationList[i]
+	var listDiv = document.getElementById("laws-list");
+	var lawsList = listDiv.getElementsByTagName("li");
+	for( var i=0;i<lawsList.length;i++ ){
+		console.log(lawsList[i]);
+		lawsList[i].onclick = function(){
+			//this: lawsList[i]
 			callback(this);
 			return false;
 		}
@@ -39,7 +39,7 @@ function listRegister(callback){
 function onClick(that){
 	var docPath = that.innerHTML + that.getAttribute("class");
 	var queryList = new queryOrder(1, docPath, "");
-	postData("information.php", queryList , function(request){
+	postData("laws.php", queryList , function(request){
 		var div = document.getElementsByClassName("details")[0];
 		div.innerHTML = request.responseText ;
 		var imgs = div.getElementsByTagName('img');
@@ -57,7 +57,7 @@ function onClick(that){
  * @param titleLists: Array, list of titles
  */
 function listGenerate(titleLists){
-	var listDiv = document.getElementById("information-list");
+	var listDiv = document.getElementById("laws-list");
 	if(!listDiv) return false;
 	var titleListHTML = "";
 	for( var i=0;i<titleLists.length;i++){
@@ -141,7 +141,7 @@ function postData(url, data, callback) {
  */
 function initMain(){
 	var queryList = new queryOrder(0, "content", "");
-	postData("information.php", queryList, function(request){
+	postData("laws.php", queryList, function(request){
 		var titleLists = decodeJSON( JSON.parse(request.responseText) );
 		listGenerate(titleLists);
 	});
