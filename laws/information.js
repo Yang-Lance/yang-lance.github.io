@@ -21,12 +21,12 @@ queryOrder.prototype = {
  * 标题列表事件注册
  */
 function listRegister(callback){
-	var listDiv = document.getElementById("downloads-list");
-	var downloadsList = listDiv.getElementsByTagName("li");
-	for( var i=0;i<downloadsList.length;i++ ){
-		console.log(downloadsList[i]);
-		downloadsList[i].onclick = function(){
-			//this: downloadsList[i]
+	var listDiv = document.getElementById("information-list");
+	var informationList = listDiv.getElementsByTagName("li");
+	for( var i=0;i<informationList.length;i++ ){
+		console.log(informationList[i]);
+		informationList[i].onclick = function(){
+			//this: informationList[i]
 			callback(this);
 			return false;
 		}
@@ -37,18 +37,17 @@ function listRegister(callback){
  * onClick function
  */
 function onClick(that){
-	var docPath = that.innerHTML;							//获取文件夹名称
-	var queryList = new queryOrder(2, docPath, "");			//查询指令
-	var fileList = "";
-	postData("downloads.php", queryList , function(request){
+	var docPath = that.innerHTML + that.getAttribute("class");
+	var queryList = new queryOrder(1, docPath, "");
+	postData("information.php", queryList , function(request){
 		var div = document.getElementsByClassName("details")[0];
-		for(var i=0;i<JSON.parse(request.responseText).length;i++){
-			var fileName = JSON.parse( request.responseText )[i];			//文件名
-			var link = 'content/' + that.innerHTML + '/' + fileName;		//生成链接
-			fileList = fileList + "<li><a target=\"_blank\" href=\"" + link + "\"" + "download=\"" + fileName + "\">" + fileName + "</a></li>";
+		div.innerHTML = request.responseText ;
+		var imgs = div.getElementsByTagName('img');
+		for(var i=0;i<imgs.length;i++){
+			var originalSrc = div.getElementsByTagName('img')[i].getAttribute('src');
+			var src = "content/" + originalSrc;
+			div.getElementsByTagName('img')[i].setAttribute('src', src);
 		}
-		div.innerHTML = "<ul>" + fileList + "</ul>";						//创建无序列表
-		
 		location.hash = docPath;							//设置锚，用于标定网页位置
 	});
 }
@@ -58,7 +57,7 @@ function onClick(that){
  * @param titleLists: Array, list of titles
  */
 function listGenerate(titleLists){
-	var listDiv = document.getElementById("downloads-list");
+	var listDiv = document.getElementById("information-list");
 	if(!listDiv) return false;
 	var titleListHTML = "";
 	for( var i=0;i<titleLists.length;i++){
@@ -142,8 +141,8 @@ function postData(url, data, callback) {
  */
 function initMain(){
 	var queryList = new queryOrder(0, "content", "");
-	postData("downloads.php", queryList, function(request){
-		var titleLists = decodeJSON( JSON.parse(request.responseText) );			//JSON.parse: 将 JavaScript 对象表示法 (JSON) 字符串转换为对象
+	postData("information.php", queryList, function(request){
+		var titleLists = decodeJSON( JSON.parse(request.responseText) );
 		listGenerate(titleLists);
 	});
 }
@@ -158,3 +157,5 @@ window.onhashchange = function() {
 }
 
 initMain();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
