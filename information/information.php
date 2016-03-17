@@ -14,15 +14,20 @@
 	// define( 'FORMATLIST', array('.txt', '.html', '.xml', '.htm') );
 	
 	/**
+	 * 判断操作系统
+	 */
+	$PHP_OS
+	
+	/**
 	 * 根据指令类型作出反应
 	 */
 	switch($type){
 		case 0:							//查列表
 			// echo json_encode( array_diff(scandir($url), array('..', '.')) );		//如果文件系统编码是utf-8，就使用这一句
 			$docs = scandir($url); $count = count($docs);
-			for($x=0;$x<$count;$x++) {
+			/*for($x=0;$x<$count;$x++) {
 				$docs[$x] = iconv( "GBK","utf-8", $docs[$x] );						//如果文件系统编码不是utf-8，则转码
-			}
+			}*/																		//Linux下，不需转码
 			$docs = formatFilter( $docs );											//去掉文件类型不符合项
 			echo json_encode( $docs );
 			// filemtime($url."/2.txt");											//获取文件最后一次更改时间
@@ -30,7 +35,7 @@
 			break;
 		case 1:							//查内容
 			// $fp = fopen("content/".$url);
-			$url = iconv( "utf-8", "GBK", $url );									//如果文件系统编码不是utf-8，则转码
+			// $url = iconv( "utf-8", "GBK", $url );									//如果文件系统编码不是utf-8，则转码
 			$text = readfile("content/".$url);
 			// echo iconv( "GBK", "utf-8//IGNORE", $text );
 			echo $text = mb_convert_encoding($text, "UTF-8", "gbk");

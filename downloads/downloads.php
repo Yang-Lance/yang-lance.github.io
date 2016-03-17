@@ -14,19 +14,19 @@
 		case 0:							//search folders, and list folders.
 			// echo json_encode( array_diff(scandir($url), array('..', '.')) );			//如果文件系统编码是utf-8，就使用这一句
 			$folder = scandir($url); $count = count($folder);
-			for($x=0;$x<$count;$x++) {
+			/*for($x=0;$x<$count;$x++) {
 				$folder[$x] = iconv( "GBK","utf-8", $folder[$x] );						//如果文件系统编码不是utf-8，则转码
-			}
+			}*/																			//Linux下，不需转码
 			$folder = folderFilter( $folder );											//去掉文件类型不符合项
 			echo json_encode( $folder );
 			// filemtime($url."/2.txt");												//获取文件最后一次更改时间
 			// date( "F d Y H:i:s.", filemtime($url."/2.txt") );						//格式化时间（格林尼治时间，按时区加减即可）
 			break;
 		case 2:							//search files, as the download link
-			$url = iconv( "utf-8", "GBK", $url );										//如果文件系统编码不是utf-8，则转码
+			// $url = iconv( "utf-8", "GBK", $url );										//如果文件系统编码不是utf-8，则转码
 			$docs = scandir("content/".$url); $count = count($docs);
-			for($x=0;$x<$count;$x++)
-				$docs[$x] = iconv( "GBK","utf-8", $docs[$x] );							//如果文件系统编码不是utf-8，则转码
+			/*for($x=0;$x<$count;$x++)
+				$docs[$x] = iconv( "GBK","utf-8", $docs[$x] );*/							//如果文件系统编码不是utf-8，则转码
 			$docs = formatFilter($docs);
 			echo json_encode( $docs );
 			break;
